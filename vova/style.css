@@ -4,24 +4,38 @@
 #calendar {
 	display: inline-block;
 }
-#calendar td, #calendar th {
-	padding: 10px;
-	border: 1px solid rgb(0, 119, 255);
+td, th {
+	padding: 15px;
+	border: 0px solid black;
+    border-radius: 10px;
 	text-align: center;
+    background-color: rgb(162, 217, 221)
+   
 }
-
+thead tr, thead th{
+    border-radius: 10px;
+    background-color: rgb(3, 117, 121);
+    font-size: 35px;
+    color: white;
+}
 #calendar .nav, #calendar .info {
 	text-align: center;
 }
 #calendar a {
-    color: rgb(0, 119, 255);
-	font-size: 25px;
+	color: rgb(3, 117, 121);
+	font-size: 45px;
 	text-decoration: none;
 }
 #calendar a:hover {
-	color: rgb(0, 153, 255);
+	color: rgb(98, 135, 184);;
+}
+td:hover{
+    background-color: rgb(98, 135, 184);
+}
+#calendar .active {
+	color: rgb(98, 135, 184);;
 }
 
-#calendar .active {
-	color: rgb(0, 153, 255);
+.info{
+    font-size: 25px;
 }
