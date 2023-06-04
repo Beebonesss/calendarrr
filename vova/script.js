@@ -1,94 +1,52 @@
 let calendar = document.querySelector('#calendar');
 let body = calendar.querySelector('.body');
+
 let prev = calendar.querySelector('.prev');
 let next = calendar.querySelector('.next');
 
 let date  = new Date();
 let year  = date.getFullYear();
 let month = date.getMonth();
+console.log(date)
+console.log(year)
+console.log(month)
 
-draw(body, year, month);
-
-function draw(body, year, month) {
-	let arr = range(getLastDay(year, month));
-	
-	let firstWeekDay = getFirstWeekDay(year, month);
-	let lastWeekDay  = getLastWeekDay(year, month);
-	
-	let nums = chunk(normalize(arr, firstWeekDay, 6 - lastWeekDay), 
-		7); 
-	createTable(body, nums)
-}
-
-function createTable(parent, arr) {
-	parent.textContent = '';
-	let cells = [];
-	
-	for (let sub of arr) {
-		let tr = document.createElement('tr');
-		
-		for (let num of sub) {
-			let td = document.createElement('td');
-			td.textContent = num;
-			tr.appendChild(td);
-			
-			cells.push(td);
-		}
-		
-		parent.appendChild(tr);
-	}
-	
-	return cells;
-}
-
-function normalize(arr, left, right) {
-	for (let i = 0; i < left; i++) {
-		arr.unshift('');
-	}
-	for (var i = 0; i < right; i++) {
-		arr.push('');
-	}
-	
-	return arr;
-}
-
-function getFirstWeekDay(year, month) {
-	let date = new Date(year, month, 1);
-	let num  = date.getDay();
-	
-	if (num == 0) {
-		return 6;
-	} else {
-		return num - 1;
-	}
-}
-
-function getLastWeekDay(year, month) {
-	let date = new Date(year, month + 1, 0);
-	let num  = date.getDay();
-	
-	if (num == 0) {
-		return 6;
-	} else {
-		return num - 1;
-	}
-}
-
-function getLastDay(year, month) {
-	let date = new Date(year, month + 1, 0);
-	return date.getDate();
-}
+let info = document.querySelector('.info')
 
 function range(count) {
-	let arr = [];
-	
-	for (let i = 1; i <= count; i++) {
-		arr.push(i);
-	}
-	
-	return arr;
+    let arr = [];
+    let num = 0;
+        for(let i = 1; i<= count ;i++){
+        arr.push(i)
+    }	
+    return arr
 }
-
+function getLastDay(year, month) {
+    let date = new Date(year, month + 1, 0);
+    return date.getDate();
+}
+function getFirstWeekDay(year, month) {
+    let date = new Date(year, +month, 1);
+    return date.getDay()
+    
+}
+function getLastWeekDay(year, month) {
+    let date = new Date(year, month + 1, 0);
+    return date.getDay()
+}
+function normalize(arr, left, right) {
+	let res = [];
+    for(let i = 1; i < left; i++){
+        res.push('')
+    }
+    for(let elem of arr){
+        res.push(elem)
+    }
+    for(let i = 0; i <= right; i++){
+        res.push('')
+    }
+    return res
+}
 function chunk(arr, n) {
 	let result = [];
 	let count = Math.ceil(arr.length / n);
@@ -100,28 +58,77 @@ function chunk(arr, n) {
 	
 	return result;
 }
+function createTable(parent, arr) {
+    parent.textContent = '';
 
+	for (let subArr of arr) {
+        let tr = document.createElement('tr');
+        
+        for (let elem of subArr) {
+            let td = document.createElement('td');
+            td.textContent = elem;
+            tr.appendChild(td);
+        }
+        
+        parent.appendChild(tr);
+    }
+}function draw(body, year, month) {
+	let arr = range(getLastDay(year, month));
+	console.log(arr)
+	let firstWeekDay = getFirstWeekDay(year, 
+		month); 
+    console.log(firstWeekDay)
+	let lastWeekDay  = getLastWeekDay(year, 
+		month); 
+    console.log(lastWeekDay)
+	let nums = chunk(normalize(arr, firstWeekDay, 
+		6 - lastWeekDay), 7); 
+    console.log(nums)
+	createTable(body, nums)
+}
+draw(body, year, month)
 
+function getNextYear(year, month){
+    let res = year;
+    if (month == 11){
+        res++;
+        return res
+    } else {
+        return res
+    }
+} 
+
+console.log(month)
 next.addEventListener('click', function() {
-    if(month < 11){
-        month++
+        if(month < 11){
+            month++
+        } else
+        (month = 0)
+         if(month == 11){
+            year ++
+         }
+
+	draw(body, year, month); 
+    datename()
+});
+prev.addEventListener('click', function() {
+    if(month > 0){
+        month--
     } else
-    (month = 0)
-     if(month == 11){
-        year ++
+    (month = 11)
+     if(month == 0){
+        year --
      }
 
 draw(body, year, month); 
+datename()
 });
-prev.addEventListener('click', function() {
-if(month > 0){
-    month--
-} else
-(month = 11)
- if(month == 0){
-    year --
- }
 
-draw(body, year, month); 
 
-});
+function datename(){ 
+  let months = ['Январь' , 'Февраль' , 'Март' , 'Апрель' , 'Май' , 'Июнь' , 'Июль' , 'Август' , 'Сентябрь' , 'Октябрь' , 'Ноябрь' , 'Декабрь'] 
+  let monthname = months[month]; 
+  info.textContent = monthname +' ' + year 
+} 
+datename()
+
